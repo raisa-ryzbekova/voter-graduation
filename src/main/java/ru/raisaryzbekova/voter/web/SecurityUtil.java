@@ -1,19 +1,32 @@
 package ru.raisaryzbekova.voter.web;
 
-import ru.raisaryzbekova.voter.model.AbstractBaseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import ru.raisaryzbekova.voter.AuthorizedUser;
+
+import static java.util.Objects.requireNonNull;
 
 public class SecurityUtil {
 
-    private static int id = AbstractBaseEntity.START_SEQ + 1;
+    public static AuthorizedUser safeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+        Object principal = auth.getPrincipal();
+        return (principal instanceof AuthorizedUser) ? (AuthorizedUser) principal : null;
+    }
+
+    public static AuthorizedUser get() {
+        AuthorizedUser user = safeGet();
+        requireNonNull(user, "No authorized user found");
+        return user;
+    }
 
     private SecurityUtil() {
     }
 
     public static int authUserId() {
-        return id;
-    }
-
-    public static void setAuthUserId(int id) {
-        SecurityUtil.id = id;
+        return get().getUserTo().getId();
     }
 }

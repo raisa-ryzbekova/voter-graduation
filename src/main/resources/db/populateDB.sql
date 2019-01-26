@@ -1,4 +1,6 @@
 DELETE
+FROM user_roles;
+DELETE
 FROM users;
 DELETE
 FROM restaurants;
@@ -12,9 +14,14 @@ FROM votes;
 ALTER SEQUENCE global_seq
   RESTART WITH 100000;
 
-INSERT INTO users (name, email, password, role)
-VALUES ('Admin', 'admin@gmail.com', 'admin', 'ROLE_ADMIN'),
-       ('User1', 'user1@yandex.ru', 'password1', 'ROLE_USER');
+INSERT INTO users (name, email, password)
+VALUES ('User', 'user@yandex.ru', 'password'),
+       ('Admin', 'admin@gmail.com', 'admin');
+
+INSERT INTO user_roles (role, user_id)
+VALUES ('ROLE_USER', 100000),
+       ('ROLE_ADMIN', 100001),
+       ('ROLE_USER', 100001);
 
 INSERT INTO restaurants (name, phone, address)
 VALUES ('Ресторан 1', 222222, 'Улица, д.1'),
@@ -38,4 +45,4 @@ VALUES ('2018-11-07', '07:00:00', 100005, 100002),
        ('2018-11-06', '07:00:00', 100010, 100004);
 
 INSERT INTO votes (date, time, user_id, restaurant_id)
-VALUES ('2018-11-07', '10:30:00', 100001, 100003);
+VALUES ('2018-11-07', '10:30:00', 100000, 100003);

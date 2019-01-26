@@ -10,4 +10,6 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Override
     @Transactional
     User save(User user);
+
+    User getByEmail(String email);
 }
