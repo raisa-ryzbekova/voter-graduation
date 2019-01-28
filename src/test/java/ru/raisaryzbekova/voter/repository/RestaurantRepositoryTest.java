@@ -2,20 +2,13 @@ package ru.raisaryzbekova.voter.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import ru.raisaryzbekova.voter.model.Restaurant;
-import ru.raisaryzbekova.voter.testdata.DishTestData;
-import ru.raisaryzbekova.voter.util.exception.NotFoundException;
 
-import javax.validation.ConstraintViolationException;
-import java.time.Month;
 import java.util.List;
 
-import static java.time.LocalDate.of;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.raisaryzbekova.voter.testdata.RestaurantTestData.*;
 
-class RestaurantServiceTest extends AbstractRepositoryTest {
+class RestaurantRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     protected RestaurantRepository restaurantRepository;

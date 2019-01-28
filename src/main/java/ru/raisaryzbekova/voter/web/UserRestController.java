@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.raisaryzbekova.voter.model.User;
 import ru.raisaryzbekova.voter.repository.UserRepository;
+import ru.raisaryzbekova.voter.service.UserService;
 
 import java.net.URI;
 import java.util.List;
@@ -26,10 +27,12 @@ public class UserRestController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserRestController(UserRepository repository) {
+    public UserRestController(UserRepository repository, UserService userService) {
         this.userRepository = repository;
+        this.userService = userService;
     }
 
     @PostMapping(value = "/rest/admin/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +40,7 @@ public class UserRestController {
     public ResponseEntity<User> create(@RequestBody User user) {
         log.info("create {}", user);
         checkNew(user);
-        User created = userRepository.save(user);
+        User created = userService.create(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/rest/admin/users/{id}")
                 .buildAndExpand(created.getId()).toUri();

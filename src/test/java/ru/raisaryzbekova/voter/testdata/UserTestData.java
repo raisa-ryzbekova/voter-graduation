@@ -16,7 +16,7 @@ public class UserTestData {
     public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_USER, Role.ROLE_ADMIN);
 
     public static void assertMatch(User actual, User expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "votes", "registered");
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "votes", "registered", "password");
     }
 
     public static void assertMatch(Iterable<User> actual, User... expected) {
@@ -24,6 +24,6 @@ public class UserTestData {
     }
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("votes", "registered").isEqualTo(expected);
+        assertThat(actual).usingElementComparatorIgnoringFields("votes", "registered", "password").isEqualTo(expected);
     }
 }

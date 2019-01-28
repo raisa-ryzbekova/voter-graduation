@@ -34,7 +34,7 @@ public class VoteRestController {
         this.voteRepository = repository;
     }
 
-    LocalTime localTime = LocalTime.now();
+    private LocalTime localTime;
 
     static final String REST_URL = "/rest/profile/votes";
 
@@ -42,6 +42,7 @@ public class VoteRestController {
     public ResponseEntity<Vote> create(@RequestBody Vote vote, @RequestParam(value = "restaurantId", required = false) int restaurantId) throws LateForVoteException, IllegalArgumentException {
         log.info("create {}", vote);
         checkNew(vote);
+        localTime = LocalTime.now();
         if (localTime.isBefore(LocalTime.of(11, 0, 0))) {
             Vote created = voteRepository.save(vote, authUserId(), restaurantId);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

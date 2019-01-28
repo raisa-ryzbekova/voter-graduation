@@ -13,7 +13,7 @@ import java.util.List;
 
 import static ru.raisaryzbekova.voter.testdata.UserTestData.*;
 
-class UserServiceTest extends AbstractRepositoryTest {
+class UserRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     protected UserRepository userRepository;

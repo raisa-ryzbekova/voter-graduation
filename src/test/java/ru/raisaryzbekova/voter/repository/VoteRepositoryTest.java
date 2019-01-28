@@ -8,7 +8,7 @@ import static ru.raisaryzbekova.voter.testdata.RestaurantTestData.*;
 import static ru.raisaryzbekova.voter.testdata.UserTestData.USER_ID;
 import static ru.raisaryzbekova.voter.testdata.VoteTestData.*;
 
-public class VoteServiceTest extends AbstractRepositoryTest {
+public class VoteRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     protected VoteRepository voteRepository;
