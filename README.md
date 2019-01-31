@@ -25,6 +25,13 @@
 `curl -s -X POST -d '{"name":"User2","email":"user2@yandex.ru","password":"password2","roles":["ROLE_USER"]}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/admin/users --user admin@gmail.com:admin`
 #### get user
 `curl -s http://localhost:8080/votergraduation/rest/profile --user user@yandex.ru:password`
+`curl -s http://localhost:8080/votergraduation/rest/admin/users/100000 --user admin@gmail.com:admin`
+#### get users
+`curl -s http://localhost:8080/votergraduation/rest/admin/users --user admin@gmail.com:admin`
+#### enable/disable user
+`curl -s -X PUT -d '{"enabled":false}' -H 'Content-Type: application/json' http://localhost:8080/votergraduation/rest/admin/users/100000 --user admin@gmail.com:admin`
+#### delete user
+`curl -s -X DELETE http://localhost:8080/votergraduation/rest/profile --user user@yandex.ru:password`
 
 ### VOTE CONTROLLER
 #### create vote
