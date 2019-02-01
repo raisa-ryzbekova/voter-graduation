@@ -1,4 +1,4 @@
-package ru.raisaryzbekova.voter.repository;
+package ru.raisaryzbekova.voter.util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

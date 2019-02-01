@@ -11,21 +11,29 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.raisaryzbekova.voter.model.Vote;
 import ru.raisaryzbekova.voter.repository.VoteRepository;
+import ru.raisaryzbekova.voter.to.VoteTo;
 import ru.raisaryzbekova.voter.util.exception.LateForVoteException;
 import ru.raisaryzbekova.voter.util.exception.NotFoundException;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import static ru.raisaryzbekova.voter.util.ValidationUtil.*;
-import static ru.raisaryzbekova.voter.web.SecurityUtil.authUserId;
+import static ru.raisaryzbekova.voter.util.SecurityUtil.authUserId;
 
 @RestController
 @RequestMapping(VoteRestController.REST_URL)
 public class VoteRestController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
+
+    static final LocalTime TIME_LIMIT_FOR_CHANGE_VOTE = LocalTime.of(11, 0, 0);
+
+    private LocalTime localTime;
+
+    static final String REST_URL = "/rest/profile/votes";
 
     private final VoteRepository voteRepository;
 
@@ -34,23 +42,18 @@ public class VoteRestController {
         this.voteRepository = repository;
     }
 
-    private LocalTime localTime;
-
-    static final String REST_URL = "/rest/profile/votes";
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@RequestBody Vote vote, @RequestParam(value = "restaurantId", required = false) int restaurantId) throws LateForVoteException, IllegalArgumentException {
-        log.info("create {}", vote);
-        checkNew(vote);
+    public ResponseEntity<Vote> create(@RequestBody VoteTo voteTo) throws LateForVoteException, IllegalArgumentException {
+        log.info("create {}", voteTo);
         localTime = LocalTime.now();
-        if (localTime.isBefore(LocalTime.of(11, 0, 0))) {
-            Vote created = voteRepository.save(vote, authUserId(), restaurantId);
+        if (localTime.isBefore(TIME_LIMIT_FOR_CHANGE_VOTE)) {
+            Vote created = voteRepository.save(new Vote(LocalDate.now(), localTime), authUserId(), voteTo.getRestaurantId());
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path(REST_URL + "/{id}")
                     .buildAndExpand(created.getId()).toUri();
             return ResponseEntity.created(uriOfNewResource).body(created);
         } else {
-            throw new LateForVoteException(vote + " is too late, can't be changed");
+            throw new LateForVoteException(voteTo + " is too late, can't be changed");
         }
     }
 

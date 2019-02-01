@@ -35,7 +35,7 @@
 
 ### VOTE CONTROLLER
 #### create vote
-`curl -s -X POST -d '{"date":"2018-12-25","time":"10:00"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/profile/votes?restaurantId=100003 --user user@yandex.ru:password`
+`curl -s -X POST -d '{"restaurantId":"100003"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/profile/votes --user user@yandex.ru:password`
 #### get vote
 `curl -s http://localhost:8080/votergraduation/rest/profile/votes/100017 --user user@yandex.ru:password`
 #### update vote

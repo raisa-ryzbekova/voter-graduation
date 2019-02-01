@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 import static ru.raisaryzbekova.voter.util.ValidationUtil.checkNew;
-import static ru.raisaryzbekova.voter.web.SecurityUtil.authUserId;
+import static ru.raisaryzbekova.voter.util.SecurityUtil.authUserId;
 
 @RestController
 @RequestMapping

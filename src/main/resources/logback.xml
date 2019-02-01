@@ -3,15 +3,6 @@
 
     <jmxConfigurator/>
 
-    <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>${VOTER_ROOT}/log/voter.log</file>
-
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%date %-5level %logger{50}.%M:%L - %msg%n</pattern>
-        </encoder>
-    </appender>
-
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>UTF-8</charset>

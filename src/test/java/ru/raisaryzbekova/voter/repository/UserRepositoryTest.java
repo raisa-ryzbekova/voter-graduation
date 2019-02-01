@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import ru.raisaryzbekova.voter.model.Role;
 import ru.raisaryzbekova.voter.model.User;
+import ru.raisaryzbekova.voter.util.JpaUtil;
 
 import java.util.Collections;
 import java.util.Date;
