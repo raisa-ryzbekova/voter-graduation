@@ -37,6 +37,6 @@
 #### create vote
 `curl -s -X POST -d '{"restaurantId":"100003"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/profile/votes --user user@yandex.ru:password`
 #### get vote
-`curl -s http://localhost:8080/votergraduation/rest/profile/votes/100017 --user user@yandex.ru:password`
+`curl -s http://localhost:8080/votergraduation/rest/profile/votes/100018 --user user@yandex.ru:password`
 #### update vote
-`curl -s -X PUT -d '{"date":"2018-12-25","time":"10:30"}' -H 'Content-Type: application/json' http://localhost:8080/votergraduation/rest/profile/votes/100020?restaurantId=100004 --user user@yandex.ru:password`
+`curl -s -X PUT -d '{"restaurantId":"100004"}' -H 'Content-Type: application/json' http://localhost:8080/votergraduation/rest/profile/votes/100018 --user user@yandex.ru:password`

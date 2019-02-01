@@ -29,9 +29,7 @@ public class VoteRestController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    static final LocalTime TIME_LIMIT_FOR_CHANGE_VOTE = LocalTime.of(11, 0, 0);
-
-    private LocalTime localTime;
+    private static final LocalTime TIME_LIMIT_FOR_CHANGE_VOTE = LocalTime.of(11, 0, 0);
 
     static final String REST_URL = "/rest/profile/votes";
 
@@ -45,16 +43,11 @@ public class VoteRestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> create(@RequestBody VoteTo voteTo) throws LateForVoteException, IllegalArgumentException {
         log.info("create {}", voteTo);
-        localTime = LocalTime.now();
-        if (localTime.isBefore(TIME_LIMIT_FOR_CHANGE_VOTE)) {
-            Vote created = voteRepository.save(new Vote(LocalDate.now(), localTime), authUserId(), voteTo.getRestaurantId());
-            URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(REST_URL + "/{id}")
-                    .buildAndExpand(created.getId()).toUri();
-            return ResponseEntity.created(uriOfNewResource).body(created);
-        } else {
-            throw new LateForVoteException(voteTo + " is too late, can't be changed");
-        }
+        Vote created = voteRepository.save(new Vote(LocalDate.now(), LocalTime.now()), authUserId(), voteTo.getRestaurantId());
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @GetMapping("/{id}")
@@ -71,14 +64,17 @@ public class VoteRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Vote vote, @PathVariable("id") int id, @RequestParam(value = "restaurantId", required = false) int restaurantId) throws NotFoundException, LateForVoteException {
-        log.info("update {} userId={}", vote, authUserId());
-        Assert.notNull(vote, "vote must not be null");
-        assureIdConsistent(vote, id);
-        if (localTime.isBefore(LocalTime.of(11, 0, 0))) {
-            checkNotFoundWithId(voteRepository.save(vote, authUserId(), restaurantId), vote.getId());
+    public void update(@RequestBody VoteTo voteTo, @PathVariable("id") int id) throws NotFoundException, LateForVoteException {
+        log.info("update {} userId={}", voteTo, authUserId());
+        Assert.notNull(voteTo, "voteTo must not be null");
+        LocalTime localTime = LocalTime.now();
+        if (localTime.isBefore(TIME_LIMIT_FOR_CHANGE_VOTE)) {
+            Vote vote = voteRepository.get(id, authUserId());
+            vote.setLocalTime(localTime);
+            vote.setDate(LocalDate.now());
+            voteRepository.save(vote, authUserId(), voteTo.getRestaurantId());
         } else {
-            throw new LateForVoteException(vote + " is too late, can't be changed");
+            throw new LateForVoteException(voteTo + " is too late, can't be changed");
         }
     }
 }
