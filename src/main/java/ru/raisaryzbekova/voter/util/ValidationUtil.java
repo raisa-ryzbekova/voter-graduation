@@ -1,6 +1,5 @@
 package ru.raisaryzbekova.voter.util;
 
-import ru.raisaryzbekova.voter.HasId;
 import ru.raisaryzbekova.voter.model.AbstractBaseEntity;
 import ru.raisaryzbekova.voter.util.exception.NotFoundException;
 
@@ -31,14 +30,6 @@ public class ValidationUtil {
     public static void checkNew(AbstractBaseEntity entity) {
         if (!entity.isNew()) {
             throw new IllegalArgumentException(entity + " must be new (id=null)");
-        }
-    }
-
-    public static void assureIdConsistent(HasId bean, int id) {
-        if (bean.isNew()) {
-            bean.setId(id);
-        } else if (bean.getId() != id) {
-            throw new IllegalArgumentException(bean + " must be with id=" + id);
         }
     }
 

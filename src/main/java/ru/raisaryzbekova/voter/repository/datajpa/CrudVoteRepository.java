@@ -20,5 +20,5 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     Vote get(@Param("date") LocalDate date, @Param("userId") int userId);
 
     @Query("SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.date DESC")
-    List<Vote> getAll(@Param("userId") int userId);
+    List<Vote> getAllByUser(@Param("userId") int userId);
 }

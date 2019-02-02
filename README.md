@@ -8,7 +8,7 @@
 
 ### MENU ITEM CONTROLLER
 #### create menu item
-`curl -s -X POST -d '{"restaurantId":"100002","dishId":"100005"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/admin/menu-items --user admin@gmail.com:admin`
+`curl -s -X POST -d '{"dishId":"100005"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/admin/menu-items --user admin@gmail.com:admin`
 #### get menu items by date
 `curl -s http://localhost:8080/votergraduation/rest/profile/menu-items-by-date?date=2018-11-07 --user user@yandex.ru:password`
 

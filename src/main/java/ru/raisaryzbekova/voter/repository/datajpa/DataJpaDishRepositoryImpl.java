@@ -20,9 +20,6 @@ public class DataJpaDishRepositoryImpl implements DishRepository {
     @Override
     @Transactional
     public Dish save(Dish dish, int restaurantId) {
-        if (!dish.isNew() && get(dish.getId(), restaurantId) == null) {
-            return null;
-        }
         dish.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
         return crudDishRepository.save(dish);
     }
@@ -33,7 +30,7 @@ public class DataJpaDishRepositoryImpl implements DishRepository {
     }
 
     @Override
-    public List<Dish> getAll(int restaurantId) {
-        return crudDishRepository.getAll(restaurantId);
+    public List<Dish> getAllByRestaurant(int restaurantId) {
+        return crudDishRepository.getAllByRestaurant(restaurantId);
     }
 }

@@ -29,12 +29,6 @@ public class MenuItem extends AbstractBaseEntity {
     @NotNull
     private Dish dish;
 
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    @NotNull
-    private Restaurant restaurant;
-
     public MenuItem() {
     }
 
@@ -70,14 +64,6 @@ public class MenuItem extends AbstractBaseEntity {
 
     public void setDish(Dish dish) {
         this.dish = dish;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
     }
 
     @Override

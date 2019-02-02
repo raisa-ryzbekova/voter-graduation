@@ -11,14 +11,14 @@ public class DishTestData {
 
     public static final int DISH1_ID = START_SEQ + 5;
 
-    public static final Dish DISH1 = new Dish(DISH1_ID, "Блюдо 1", 500);
-    public static final Dish DISH2 = new Dish(DISH1_ID + 1, "Блюдо 2", 500);
-    public static final Dish DISH3 = new Dish(DISH1_ID + 2, "Блюдо 3", 500);
-    public static final Dish DISH4 = new Dish(DISH1_ID + 3, "Блюдо 4", 500);
-    public static final Dish DISH5 = new Dish(DISH1_ID + 4, "Блюдо 5", 500);
-    public static final Dish DISH6 = new Dish(DISH1_ID + 5, "Блюдо 6", 500);
+    public static final Dish DISH_1 = new Dish(DISH1_ID, "Блюдо 1", 500);
+    public static final Dish DISH_2 = new Dish(DISH1_ID + 1, "Блюдо 2", 500);
+    public static final Dish DISH_3 = new Dish(DISH1_ID + 2, "Блюдо 3", 500);
+    public static final Dish DISH_4 = new Dish(DISH1_ID + 3, "Блюдо 4", 500);
+    public static final Dish DISH_5 = new Dish(DISH1_ID + 4, "Блюдо 5", 500);
+    public static final Dish DISH_6 = new Dish(DISH1_ID + 5, "Блюдо 6", 500);
 
-    public static final List<Dish> DISHES = List.of(DISH1, DISH2);
+    public static final List<Dish> DISHES = List.of(DISH_1, DISH_2);
 
     public static Dish getCreated() {
         return new Dish(null, "Созданное блюдо", 500);

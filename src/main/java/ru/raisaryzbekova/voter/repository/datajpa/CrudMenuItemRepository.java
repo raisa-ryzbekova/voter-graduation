@@ -18,6 +18,6 @@ public interface CrudMenuItemRepository extends JpaRepository<MenuItem, Integer>
     MenuItem save(MenuItem menuItem);
 
     @Cacheable("menu_items")
-    @Query("SELECT m FROM MenuItem m JOIN FETCH m.dish JOIN FETCH m.restaurant WHERE m.date=:date")
-    List<MenuItem> getByDate(@Param("date") LocalDate date);
+    @Query("SELECT m FROM MenuItem m JOIN FETCH m.dish WHERE m.date=:date")
+    List<MenuItem> getAllByDate(@Param("date") LocalDate date);
 }

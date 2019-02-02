@@ -52,6 +52,6 @@ public class DishRestController {
     @GetMapping(value = "/dishes", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getAll(@RequestParam(value = "restaurantId", required = false) int restaurantId) {
         log.info("get all dishes");
-        return dishRepository.getAll(restaurantId);
+        return dishRepository.getAllByRestaurant(restaurantId);
     }
 }
