@@ -41,11 +41,11 @@ public class Vote extends AbstractBaseEntity {
         this(v.getId(), v.getDate(), v.getLocalTime());
     }
 
-    public Vote(@NotNull LocalDate date, @NotNull LocalTime time) {
+    public Vote(LocalDate date, LocalTime time) {
         this(null, date, time);
     }
 
-    public Vote(Integer id, @NotNull LocalDate date, @NotNull LocalTime time) {
+    public Vote(Integer id, LocalDate date, LocalTime time) {
         super.id = id;
         this.date = date;
         this.time = time;

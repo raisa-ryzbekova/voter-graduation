@@ -33,7 +33,7 @@ public class RestaurantRestController {
     static final String REST_URL = "/rest/admin/restaurants";
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> create(@RequestBody Restaurant restaurant) throws IllegalArgumentException{
+    public ResponseEntity<Restaurant> create(@RequestBody Restaurant restaurant) throws IllegalArgumentException {
         log.info("create {}", restaurant);
         checkNew(restaurant);
         Restaurant created = restaurantRepository.save(restaurant);
@@ -43,13 +43,13 @@ public class RestaurantRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @GetMapping("/{restaurantId}")
+    @GetMapping(value = "/{restaurantId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Restaurant get(@PathVariable("restaurantId") int id) throws NotFoundException {
         log.info("get {}", id);
         return checkNotFoundWithId(restaurantRepository.get(id), id);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> getAll() {
         log.info("getAll");
         return restaurantRepository.getAll();

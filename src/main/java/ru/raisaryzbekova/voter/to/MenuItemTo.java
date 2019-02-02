@@ -1,31 +1,21 @@
 package ru.raisaryzbekova.voter.to;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
-public class VoteTo extends BaseTo {
-
-    @Column(name = "date", nullable = false)
-    @NotNull
-    private LocalDate date;
+public class MenuItemTo extends BaseTo {
 
     @NotNull
     private Integer restaurantId;
 
-    public VoteTo() {
+    @NotNull
+    private Integer dishId;
+
+    public MenuItemTo() {
     }
 
-    public VoteTo(Integer restaurantId) {
+    public MenuItemTo(Integer restaurantId, Integer dishId) {
         this.restaurantId = restaurantId;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+        this.dishId = dishId;
     }
 
     public Integer getRestaurantId() {
@@ -36,11 +26,19 @@ public class VoteTo extends BaseTo {
         this.restaurantId = restaurantId;
     }
 
+    public Integer getDishId() {
+        return dishId;
+    }
+
+    public void setDishId(Integer dishId) {
+        this.dishId = dishId;
+    }
+
     @Override
     public String toString() {
-        return "VoteTo{" +
-                "date=" + date +
+        return "MenuItemTo{" +
                 "restaurantId=" + restaurantId +
+                ", dishId=" + dishId +
                 '}';
     }
 }

@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static ru.raisaryzbekova.voter.util.ValidationUtil.*;
 import static ru.raisaryzbekova.voter.util.SecurityUtil.authUserId;
 
 @RestController
@@ -31,7 +30,7 @@ public class VoteRestController {
 
     private static final LocalTime TIME_LIMIT_FOR_CHANGE_VOTE = LocalTime.of(11, 0, 0);
 
-    static final String REST_URL = "/rest/profile/votes";
+    static final String REST_URL = "/rest/profile";
 
     private final VoteRepository voteRepository;
 
@@ -40,8 +39,8 @@ public class VoteRestController {
         this.voteRepository = repository;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@RequestBody VoteTo voteTo) throws LateForVoteException, IllegalArgumentException {
+    @PostMapping(value = "/votes", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Vote> create(@RequestBody VoteTo voteTo) throws IllegalArgumentException {
         log.info("create {}", voteTo);
         Vote created = voteRepository.save(new Vote(LocalDate.now(), LocalTime.now()), authUserId(), voteTo.getRestaurantId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -50,28 +49,27 @@ public class VoteRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @GetMapping("/{id}")
-    public Vote get(@PathVariable("id") int id) throws NotFoundException {
-        log.info("get {} userId={}", id, authUserId());
-        return checkNotFoundWithId(voteRepository.get(id, authUserId()), id);
+    @GetMapping(value = "/vote", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Vote get(@RequestParam(value = "date", required = false) LocalDate date) throws NotFoundException {
+        log.info("get vote of userId={} by date={}", authUserId(), date);
+        return voteRepository.get(date, authUserId());
     }
 
-    @GetMapping
+    @GetMapping(value = "/votes", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getAll() {
         log.info("getAll userId={}");
         return voteRepository.getAll(authUserId());
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/votes", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody VoteTo voteTo, @PathVariable("id") int id) throws NotFoundException, LateForVoteException {
-        log.info("update {} userId={}", voteTo, authUserId());
+    public void update(@RequestBody VoteTo voteTo) throws LateForVoteException, IllegalArgumentException {
+        log.info("update vote {} userId={}", voteTo, authUserId());
         Assert.notNull(voteTo, "voteTo must not be null");
         LocalTime localTime = LocalTime.now();
         if (localTime.isBefore(TIME_LIMIT_FOR_CHANGE_VOTE)) {
-            Vote vote = voteRepository.get(id, authUserId());
+            Vote vote = voteRepository.get(voteTo.getDate(), authUserId());
             vote.setLocalTime(localTime);
-            vote.setDate(LocalDate.now());
             voteRepository.save(vote, authUserId(), voteTo.getRestaurantId());
         } else {
             throw new LateForVoteException(voteTo + " is too late, can't be changed");

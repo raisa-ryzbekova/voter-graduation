@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.raisaryzbekova.voter.model.Vote;
 import ru.raisaryzbekova.voter.repository.VoteRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -23,7 +24,7 @@ public class DataJpaVoteRepositoryImpl implements VoteRepository {
     @Override
     @Transactional
     public Vote save(Vote vote, int userId, int restaurantId) {
-        if (!vote.isNew() && get(vote.getId(), userId) == null) {
+        if (!vote.isNew() && get(vote.getDate(), userId) == null) {
             return null;
         }
         vote.setUser(crudUserRepository.getOne(userId));
@@ -32,8 +33,8 @@ public class DataJpaVoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
-    public Vote get(int id, int userId) {
-        return crudVoteRepository.findById(id).filter(vote -> vote.getUser().getId() == userId).orElse(null);
+    public Vote get(LocalDate date, int userId) {
+        return crudVoteRepository.get(date, userId);
     }
 
     @Override

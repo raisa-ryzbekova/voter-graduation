@@ -1,14 +1,14 @@
 ### DISH CONTROLLER
 #### create dish
-`curl -s -X POST -d '{"name":"Created dish","price":300}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/admin/100002/dishes --user admin@gmail.com:admin`
+`curl -s -X POST -d '{"name":"Created dish","price":300, "restaurantId":"100002"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/admin/dishes --user admin@gmail.com:admin`
 #### get dish
-`curl -s http://localhost:8080/votergraduation/rest/admin/100002/dishes/100005 --user admin@gmail.com:admin`
+`curl -s http://localhost:8080/votergraduation/rest/admin/dishes/100005?restaurantId=100002 --user admin@gmail.com:admin`
 #### get all dish
-`curl -s http://localhost:8080/votergraduation/rest/admin/100002/dishes --user admin@gmail.com:admin`
+`curl -s http://localhost:8080/votergraduation/rest/admin/dishes?restaurantId=100002 --user admin@gmail.com:admin`
 
 ### MENU ITEM CONTROLLER
 #### create menu item
-`curl -s -X POST -d '{"date":"2018-11-07","time":"07:00"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/admin/100004/menu-items?dishId=100007 --user admin@gmail.com:admin`
+`curl -s -X POST -d '{"restaurantId":"100002","dishId":"100005"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/admin/menu-items --user admin@gmail.com:admin`
 #### get menu items by date
 `curl -s http://localhost:8080/votergraduation/rest/profile/menu-items-by-date?date=2018-11-07 --user user@yandex.ru:password`
 
@@ -37,6 +37,6 @@
 #### create vote
 `curl -s -X POST -d '{"restaurantId":"100003"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votergraduation/rest/profile/votes --user user@yandex.ru:password`
 #### get vote
-`curl -s http://localhost:8080/votergraduation/rest/profile/votes/100018 --user user@yandex.ru:password`
+`curl -s http://localhost:8080/votergraduation/rest/profile/vote?date=2018-11-07 --user user@yandex.ru:password`
 #### update vote
-`curl -s -X PUT -d '{"restaurantId":"100004"}' -H 'Content-Type: application/json' http://localhost:8080/votergraduation/rest/profile/votes/100018 --user user@yandex.ru:password`
+`curl -s -X PUT -d '{"date":"2018-11-07","restaurantId":"100004"}' -H 'Content-Type: application/json' http://localhost:8080/votergraduation/rest/profile/votes --user user@yandex.ru:password`

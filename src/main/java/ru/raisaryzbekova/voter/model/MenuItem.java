@@ -38,6 +38,10 @@ public class MenuItem extends AbstractBaseEntity {
     public MenuItem() {
     }
 
+    public MenuItem(LocalDate date, LocalTime time) {
+        this(null, date, time);
+    }
+
     public MenuItem(Integer id, LocalDate date, LocalTime time) {
         super(id);
         this.date = date;

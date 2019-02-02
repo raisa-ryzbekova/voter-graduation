@@ -6,7 +6,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.raisaryzbekova.voter.TimingExtension;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.raisaryzbekova.voter.util.ValidationUtil.getRootCause;
@@ -16,7 +15,6 @@ import static ru.raisaryzbekova.voter.util.ValidationUtil.getRootCause;
         "classpath:spring/spring-db.xml"
 })
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ExtendWith(TimingExtension.class)
 abstract class AbstractRepositoryTest {
 
     @Autowired

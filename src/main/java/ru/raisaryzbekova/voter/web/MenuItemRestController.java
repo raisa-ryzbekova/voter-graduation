@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.raisaryzbekova.voter.model.MenuItem;
 import ru.raisaryzbekova.voter.repository.MenuItemRepository;
+import ru.raisaryzbekova.voter.to.MenuItemTo;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
-
-import static ru.raisaryzbekova.voter.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping
@@ -29,20 +29,17 @@ public class MenuItemRestController {
         this.menuItemRepository = repository;
     }
 
-    @PostMapping(value = "/rest/admin/{restaurantId}/menu-items", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MenuItem> create(@RequestBody MenuItem menuItem,
-                                           @PathVariable("restaurantId") int restaurantId,
-                                           @RequestParam(value = "dishId", required = false) int dishId) {
-        log.info("create menu item {}", menuItem);
-        checkNew(menuItem);
-        MenuItem created = menuItemRepository.save(menuItem, dishId, restaurantId);
+    @PostMapping(value = "/rest/admin/menu-items", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MenuItem> create(@RequestBody MenuItemTo menuItemTo) {
+        log.info("create menu item {}", menuItemTo);
+        MenuItem created = menuItemRepository.save(new MenuItem(LocalDate.now(), LocalTime.now()), menuItemTo.getDishId(), menuItemTo.getRestaurantId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/rest/admin/menu-items/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @GetMapping("/rest/profile/menu-items-by-date")
+    @GetMapping(value = "/rest/profile/menu-items-by-date", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MenuItem> getByDate(@RequestParam(value = "date", required = false) LocalDate date) {
         log.info("get by date menu items");
         return menuItemRepository.getByDate(date);

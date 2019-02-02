@@ -54,7 +54,7 @@ public class UserRestController {
         return userService.get(authUserId());
     }
 
-    @PutMapping("/rest/admin/users/{id}")
+    @PutMapping(value = "/rest/admin/users/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void enable(@PathVariable("id") int id, @RequestBody User user) {
         userService.enable(id, user.isEnabled());

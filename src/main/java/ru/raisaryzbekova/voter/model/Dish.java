@@ -22,9 +22,6 @@ public class Dish extends AbstractNamedEntity {
     @JsonIgnore
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
-    private List<MenuItem> menuItems;
-
     public Dish() {
     }
 
@@ -51,14 +48,6 @@ public class Dish extends AbstractNamedEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-
-    public List<MenuItem> getMenuItems() {
-        return menuItems;
-    }
-
-    public void setMenuItems(List<MenuItem> menuItems) {
-        this.menuItems = menuItems;
     }
 
     @Override
